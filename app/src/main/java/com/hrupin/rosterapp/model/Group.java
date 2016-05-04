@@ -18,16 +18,8 @@ public class Group {
         return groupName;
     }
 
-    public void setGroupName(String groupName) {
-        this.groupName = groupName;
-    }
-
     public ArrayList<Person> getPeople() {
         return people;
-    }
-
-    public void setPeople(ArrayList<Person> people) {
-        this.people = people;
     }
 
     @Override
