@@ -12,7 +12,7 @@ public class Group {
     private String name;
 
     @SerializedName("people")
-    private ArrayList<Person> people;
+    private ArrayList<Person> people = new ArrayList<>();
 
     public String getNameCapitalized() {
         return name.substring(0,1).toUpperCase() + name.substring(1);
@@ -24,6 +24,14 @@ public class Group {
 
     public ArrayList<Person> getPeople() {
         return people;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void addPerson(Person p) {
+        people.add(p);
     }
 
     @Override

@@ -6,10 +6,14 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ExpandableListView;
 import android.widget.TextView;
 
@@ -23,14 +27,15 @@ import java.util.List;
 /**
  * Created by Igor Khrupin www.hrupin.com on 5/5/16.
  */
-public class ContactsFragment extends Fragment implements LoaderManager.LoaderCallbacks<Result<List<Group>>>, SwipeRefreshLayout.OnRefreshListener {
+public class ContactsFragment extends Fragment implements LoaderManager.LoaderCallbacks<Result<List<Group>>>, SwipeRefreshLayout.OnRefreshListener, TextWatcher, View.OnKeyListener {
 
     private static final String TAG = "ContactsFragment";
     private View mRootView;
     private ExpandableListView mElvContactsList;
     private SwipeRefreshLayout mSwipeContainer;
-    private ContactsExpListAdapter expListAdapter;
+    private ContactsExpListAdapter mExpListAdapter;
     private TextView mTvErrorMessage;
+    private EditText mEtFilter;
 
     @Nullable
     @Override
@@ -52,6 +57,11 @@ public class ContactsFragment extends Fragment implements LoaderManager.LoaderCa
                 android.R.color.holo_green_light,
                 android.R.color.holo_orange_light,
                 android.R.color.holo_red_light);
+
+        mEtFilter = (EditText)mRootView.findViewById(R.id.et_filter);
+        mEtFilter.addTextChangedListener(this);
+        mEtFilter.setText("");
+        mEtFilter.setOnKeyListener(this);
 
 
         return mRootView;
@@ -98,23 +108,23 @@ public class ContactsFragment extends Fragment implements LoaderManager.LoaderCa
     }
 
     private void updateListItens(List<Group> data) {
-        if(expListAdapter == null) {
-            expListAdapter = new ContactsExpListAdapter(getContext(), data);
-            mElvContactsList.setAdapter(expListAdapter);
+        if(mExpListAdapter == null) {
+            mExpListAdapter = new ContactsExpListAdapter(getContext(), data);
+            mElvContactsList.setAdapter(mExpListAdapter);
             expandAll();
         }else{
             if(data == null){
-                expListAdapter.updateData(new ArrayList<Group>());
+                mExpListAdapter.updateData(new ArrayList<Group>());
             }else {
-                expListAdapter.updateData(data);
+                mExpListAdapter.updateData(data);
                 expandAll();
             }
         }
     }
 
     private void expandAll() {
-        if(mElvContactsList != null & expListAdapter != null) {
-            for (int i = 0; i < expListAdapter.getGroupCount(); i++) {
+        if(mElvContactsList != null & mExpListAdapter != null) {
+            for (int i = 0; i < mExpListAdapter.getGroupCount(); i++) {
                 mElvContactsList.expandGroup(i);
             }
         }
@@ -139,5 +149,30 @@ public class ContactsFragment extends Fragment implements LoaderManager.LoaderCa
             mTvErrorMessage.setText(message);
             mTvErrorMessage.setVisibility(View.VISIBLE);
         }
+    }
+
+    @Override
+    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+    }
+
+    @Override
+    public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+    }
+
+    @Override
+    public void afterTextChanged(Editable s) {
+        if (mExpListAdapter != null) {
+            mExpListAdapter.getFilter().filter(s);
+        }
+    }
+
+    @Override
+    public boolean onKey(View v, int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_ENTER) {
+            return true;
+        }
+        return false;
     }
 }
