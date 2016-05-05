@@ -9,13 +9,17 @@ import java.util.ArrayList;
  */
 public class Group {
     @SerializedName("groupName")
-    private String groupName;
+    private String name;
 
     @SerializedName("people")
     private ArrayList<Person> people;
 
-    public String getGroupName() {
-        return groupName;
+    public String getNameCapitalized() {
+        return name.substring(0,1).toUpperCase() + name.substring(1);
+    }
+
+    public String getName() {
+        return name;
     }
 
     public ArrayList<Person> getPeople() {
@@ -29,7 +33,7 @@ public class Group {
 
         Group group = (Group) o;
 
-        if (groupName != null ? !groupName.equals(group.groupName) : group.groupName != null)
+        if (name != null ? !name.equals(group.name) : group.name != null)
             return false;
         return people != null ? people.equals(group.people) : group.people == null;
 
@@ -37,7 +41,7 @@ public class Group {
 
     @Override
     public int hashCode() {
-        int result = groupName != null ? groupName.hashCode() : 0;
+        int result = name != null ? name.hashCode() : 0;
         result = 31 * result + (people != null ? people.hashCode() : 0);
         return result;
     }
@@ -45,7 +49,7 @@ public class Group {
     @Override
     public String toString() {
         return "Group{" +
-                "groupName='" + groupName + '\'' +
+                "groupName='" + name + '\'' +
                 ", people=" + people +
                 '}';
     }

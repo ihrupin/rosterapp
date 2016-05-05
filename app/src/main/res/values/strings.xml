@@ -1,3 +1,9 @@
 <resources>
-    <string name="app_name">rosterapp</string>
+    <string name="app_name">RosterApp</string>
+
+    <!-- Error messages -->
+    <string name="error_message_list_io_exception">No internet connection</string>
+    <string name="error_message_list_server_error">Something went wrong. Try again later.</string>
+    <string name="error_message_list_no_data">No contacts</string>
+    <string name="empty">Empty</string>
 </resources>
