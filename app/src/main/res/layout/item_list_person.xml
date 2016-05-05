@@ -1,6 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:orientation="horizontal" android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="5dp">
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginLeft="5dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/tv_list_person_name"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:text="Name"
+            android:drawableLeft="@drawable/ic_list_status_online"
+            android:drawablePadding="5dp"
+            style="@style/TextViewPerson" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/tv_list_person_status_message"
+            android:textSize="12sp"
+            android:textStyle="normal"
+            android:text="Status Message"
+            style="@style/TextViewPerson"
+            android:layout_marginLeft="21dp" />
+
+    </LinearLayout>
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top"
+        android:id="@+id/iv_item_person_avatar"
+        android:src="@drawable/ic_list_avatar_male"/>
 
 </LinearLayout>
