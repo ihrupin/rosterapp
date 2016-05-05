@@ -6,4 +6,5 @@
     <string name="error_message_list_server_error">Something went wrong. Try again later.</string>
     <string name="error_message_list_no_data">No contacts</string>
     <string name="empty">Empty</string>
+    <string name="hint_find_friends">Find friends</string>
 </resources>

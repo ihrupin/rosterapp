@@ -4,15 +4,34 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <EditText
-        android:id="@+id/et_filter"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="match_parent"
+        android:id="@+id/rl_filter">
+
+        <EditText
+            android:id="@+id/et_filter"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/edit"
+            android:layout_margin="1dp"
+            android:hint="@string/hint_find_friends"
+            android:paddingLeft="20dp"/>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:src="@drawable/ic_search"
+            android:layout_alignBottom="@+id/et_filter"
+            android:layout_alignEnd="@+id/et_filter"
+            android:layout_marginRight="5dp" />
+
+    </RelativeLayout>
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/et_filter">
+        android:layout_below="@+id/rl_filter">
 
         <android.support.v4.widget.SwipeRefreshLayout
             android:id="@+id/swipe_container"
