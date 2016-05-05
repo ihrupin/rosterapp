@@ -33,7 +33,7 @@ public class ContactsFragment extends Fragment implements LoaderManager.LoaderCa
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         mRootView = inflater.inflate(R.layout.fragment_contacts, container, false);
-        
+
         elvContactsList = (ExpandableListView)mRootView.findViewById(R.id.elv_contacts);
         swipeContainer = (SwipeRefreshLayout)mRootView.findViewById(R.id.swipe_container);
         swipeContainer.setOnRefreshListener(this);
