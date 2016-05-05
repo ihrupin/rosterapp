@@ -1,4 +1,4 @@
-package com.hrupin.rosterapp;
+package com.hrupin.rosterapp.loader;
 
 import android.content.Context;
 import android.support.v4.content.AsyncTaskLoader;

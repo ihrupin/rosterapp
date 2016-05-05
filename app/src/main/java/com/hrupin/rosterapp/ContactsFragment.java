@@ -11,6 +11,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
+import com.hrupin.rosterapp.loader.ContactsLoader;
+import com.hrupin.rosterapp.loader.Result;
 import com.hrupin.rosterapp.model.Group;
 
 import java.util.List;

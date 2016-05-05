@@ -1,4 +1,4 @@
-package com.hrupin.rosterapp;
+package com.hrupin.rosterapp.loader;
 
 /**
  * Created by Igor Khrupin www.hrupin.com on 5/5/16.
