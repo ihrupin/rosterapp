@@ -12,7 +12,19 @@
         <ExpandableListView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:id="@+id/elv_contacts"/>
+            android:id="@+id/elv_contacts"
+            android:groupIndicator="@drawable/ic_arrow_down"
+            />
 
     </android.support.v4.widget.SwipeRefreshLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tv_error_message"
+        android:visibility="gone"
+        android:layout_marginTop="15dp"
+        android:textColor="@color/main_text_color"
+        android:textSize="19sp"
+        android:layout_centerHorizontal="true"/>
 </RelativeLayout>

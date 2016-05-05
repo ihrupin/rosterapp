@@ -11,12 +11,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ExpandableListView;
-import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.hrupin.rosterapp.loader.ContactsLoader;
 import com.hrupin.rosterapp.loader.Result;
 import com.hrupin.rosterapp.model.Group;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -26,18 +27,28 @@ public class ContactsFragment extends Fragment implements LoaderManager.LoaderCa
 
     private static final String TAG = "ContactsFragment";
     private View mRootView;
-    private ExpandableListView elvContactsList;
-    private SwipeRefreshLayout swipeContainer;
+    private ExpandableListView mElvContactsList;
+    private SwipeRefreshLayout mSwipeContainer;
+    private ContactsExpListAdapter expListAdapter;
+    private TextView mTvErrorMessage;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         mRootView = inflater.inflate(R.layout.fragment_contacts, container, false);
 
-        elvContactsList = (ExpandableListView)mRootView.findViewById(R.id.elv_contacts);
-        swipeContainer = (SwipeRefreshLayout)mRootView.findViewById(R.id.swipe_container);
-        swipeContainer.setOnRefreshListener(this);
-        swipeContainer.setColorSchemeResources(android.R.color.holo_blue_bright,
+        mElvContactsList = (ExpandableListView)mRootView.findViewById(R.id.elv_contacts);
+        mElvContactsList.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
+            @Override
+            public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
+                // Doing nothing. Disabling collapse groups
+                return true;
+            }
+        });
+        mSwipeContainer = (SwipeRefreshLayout)mRootView.findViewById(R.id.swipe_container);
+        mTvErrorMessage = (TextView)mRootView.findViewById(R.id.tv_error_message);
+        mSwipeContainer.setOnRefreshListener(this);
+        mSwipeContainer.setColorSchemeResources(android.R.color.holo_blue_bright,
                 android.R.color.holo_green_light,
                 android.R.color.holo_orange_light,
                 android.R.color.holo_red_light);
@@ -48,9 +59,9 @@ public class ContactsFragment extends Fragment implements LoaderManager.LoaderCa
 
     @Override public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        swipeContainer.post(new Runnable() {
+        mSwipeContainer.post(new Runnable() {
             @Override public void run() {
-                swipeContainer.setRefreshing(true);
+                mSwipeContainer.setRefreshing(true);
             }
         });
         getLoaderManager().initLoader(0, null, this).forceLoad();
@@ -64,17 +75,48 @@ public class ContactsFragment extends Fragment implements LoaderManager.LoaderCa
 
     @Override
     public void onLoadFinished(Loader<Result<List<Group>>> loader, Result<List<Group>> data) {
-        swipeContainer.setRefreshing(false);
+        mSwipeContainer.setRefreshing(false);
         switch (data.getStatus()){
             case OK:
                 Log.i(TAG, data.getData().toString());
+                updateListItens(data.getData());
+                updateErrorMessage(null);
                 break;
             case IO_EXCEPTION:
+                updateListItens(null);
+                updateErrorMessage(getString(R.string.error_message_list_io_exception));
                 break;
             case SERVER_ERROR:
+                updateListItens(null);
+                updateErrorMessage(getString(R.string.error_message_list_server_error));
                 break;
             case NO_DATA:
+                updateListItens(null);
+                updateErrorMessage(getString(R.string.error_message_list_no_data));
                 break;
+        }
+    }
+
+    private void updateListItens(List<Group> data) {
+        if(expListAdapter == null) {
+            expListAdapter = new ContactsExpListAdapter(getContext(), data);
+            mElvContactsList.setAdapter(expListAdapter);
+            expandAll();
+        }else{
+            if(data == null){
+                expListAdapter.updateData(new ArrayList<Group>());
+            }else {
+                expListAdapter.updateData(data);
+                expandAll();
+            }
+        }
+    }
+
+    private void expandAll() {
+        if(mElvContactsList != null & expListAdapter != null) {
+            for (int i = 0; i < expListAdapter.getGroupCount(); i++) {
+                mElvContactsList.expandGroup(i);
+            }
         }
     }
 
@@ -85,6 +127,17 @@ public class ContactsFragment extends Fragment implements LoaderManager.LoaderCa
 
     @Override
     public void onRefresh() {
+        updateListItens(null);
+        updateErrorMessage(null);
         getLoaderManager().initLoader(0, null, this).forceLoad();
+    }
+
+    private void updateErrorMessage(String message) {
+        if(message == null){
+            mTvErrorMessage.setVisibility(View.GONE);
+        }else{
+            mTvErrorMessage.setText(message);
+            mTvErrorMessage.setVisibility(View.VISIBLE);
+        }
     }
 }
