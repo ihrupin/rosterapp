@@ -20,7 +20,10 @@ public enum Status {
     AWAY(R.drawable.ic_list_status_away),
 
     @SerializedName("callforwarding")
-    CALLFORWARDING(R.drawable.ic_list_status_pending);
+    CALLFORWARDING(R.drawable.ic_list_call_forward),
+
+    @SerializedName("pending")
+    PENDING(R.drawable.ic_list_status_pending);
 
     private final int mIconRes;
 

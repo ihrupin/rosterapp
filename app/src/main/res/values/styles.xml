@@ -8,4 +8,8 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="TextViewPerson">
+        <item name="android:textColor">@color/main_text_color</item>
+    </style>
+
 </resources>
